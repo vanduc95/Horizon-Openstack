@@ -1,0 +1,8 @@
+{% load i18n %}
+<label>Project:</label>
+<select name="{{project}}__filter" class="form-control">
+    <option value="all">ALL</option>
+    {% for project in projects %}
+    <option value="status">{{project}}</option>
+    {% endfor %}
+</select>

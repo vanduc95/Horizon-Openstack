@@ -1,0 +1,22 @@
+{% load i18n %}
+<div>
+	<button id="refresh_btn" class="btn btn-primary">{% trans "Refresh" %}</button>
+</div>
+<div class="row">
+	<style type="text/css">
+		td{
+			white-space: nowrap;
+		}
+
+		.table_actions{
+			float: left !important;
+		}
+		.scrollable{
+			height: 300px; 
+			overflow: scroll;
+		}
+	</style>
+   <div class="col-xs-12 scrollable" >
+   {{ table.render }}
+   </div>
+</div>

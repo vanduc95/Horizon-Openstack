@@ -1,0 +1,50 @@
+{% load i18n sizeformat %}
+<div class="quota-dynamic">
+  <h3 class="quota-heading">{% trans "ALL LOGS" %}</h3>
+</div>
+<div class="usage_info_wrapper">
+  <form action="?" method="get" id="date_form">
+    <div class="col-xs-8">
+      <div class="col-xs-12">
+        <div class="form-group col-xs-6">
+          <label>Level:</label>
+          <select name="level_filter" class="form-control">
+              <option value="all">ALL</option>
+              {% for project in projects %}
+              <option value="{{project}}">{{project}}</option>
+              {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-xs-6">
+          <label>Project:</label>
+          <select name="project_filter" class="form-control">
+              <option value="all">ALL</option>
+              {% for level in levels %}
+              <option value="{{level}}">{{level}}</option>
+              {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="datepicker form-group col-xs-6">
+          <label>From:</label>
+          <input data-date-format="yyyy-mm-dd hh:mm:ss" id="id_start" name="start" value="{{start}}" type="text">
+        </div>
+        <div class="datepicker form-group col-xs-6">
+          <label>To:</label>
+          <input data-date-format="yyyy-mm-dd" id="id_end" name="end" value="{{end}}" type="text">
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div>
+        <button id="filter_btn" class="btn btn-primary">{% trans "Filter" %}</button>
+      </div>
+    </div>
+  </form>
+  <div class="col-xs-12">
+    <div style="width:60%">
+        <canvas id="canvas" width="500" height="200"></canvas>
+    </div>
+  </div>
+</div>

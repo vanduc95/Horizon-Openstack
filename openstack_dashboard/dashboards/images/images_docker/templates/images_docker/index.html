@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Images_Docker" %}{% endblock %}
+
+{% block page_header %}
+    {% include "horizon/common/_page_header.html" with title=_("Docker") %}
+{% endblock page_header %}
+
+{% block main %}
+    {% include "horizon/common/_page_header.html" with title=_("Docker") %}
+{#        <div>{{ demo }}</div>#}
+
+    {#    <div class="quota-dynamic">#}
+    {#        <h3>{% trans "Hypervisor Summary" %}</h3>#}
+    {#        <div class="col-sm-2 d3_quota_bar">#}
+    {#            <div class="d3_pie_chart_usage" data-used="{% widthratio stats.vcpus_used stats.vcpus 100 %}"></div>#}
+    {#            <div class="h5">{% trans "VCPU Usage" %}</div>#}
+    {#            <div class="h6">#}
+    {#                {% blocktrans with used=stats.vcpus_used|intcomma available=stats.vcpus|intcomma %}Used#}
+    {#                    <span> {{ used }} </span> of <span> {{ available }} </span>{% endblocktrans %}#}
+    {#            </div>#}
+    {#            <div class="d3_pie_chart_distribution"#}
+    {#                 data-used="Controller=1|Compute=2|Storage=3">#}
+    {#            </div>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="col-sm-5 col-sm-offset-2 d3_quota_bar">#}
+    {#            <div class="h5">{% trans "Local Disk Usage" %}</div>#}
+    {#        </div>#}
+    {#    </div>#}
+
+{#        <div class="overview_chart">#}
+{#            <div class="chart_container">#}
+{#                <div class="chart"#}
+{#                     data-chart-type="line_chart"#}
+{#                     data-url="http://127.0.0.1:5000/images/images_docker/display/"#}
+{#                     data-form-selector='#linechart_general_form'>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="bar_chart_container">#}
+{#                <div class="chart" data-chart-type="overview_bar_chart">#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+
+
+    <div id="line_chart"
+         data-chart-type="line_chart"
+         data-url="http://127.0.0.1:5000/images/images_docker/display/"
+{#         data-url = {{ demo }}#}
+         data-form-selector='#linechart_general_form'>
+    </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                {{ tab_group.render }}
+            </div>
+        </div>
+
+{% endblock %}

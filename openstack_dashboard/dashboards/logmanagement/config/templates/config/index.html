@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "ABC" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Mypanel") %}
+{% endblock page_header %}
+
+{% block main %}
+<div>test chart: {% trans chart %}</div>
+<div>test instance: {% trans instances %}</div>
+		<div style="width:30%">
+			<div>
+				<canvas id="myChartWithDates" width="430" height="220"></canvas>
+			</div>
+		</div>
+
+
+	<script>
+
+			var data3 = [
+				{
+					label: 'temperature',
+					strokeColor: '#A31515',
+					data: [
+						{
+							x: new Date('{% trans chart %}'),
+							y: 25
+						},
+						{
+							x: new Date('2016-04-11T12:51:00'),
+							y: 28
+						},
+						{
+							x: new Date('2016-04-11T14:10:00'),
+							y: 22
+						},
+						{
+							x: new Date('2016-04-11T15:15:00'),
+							y: 18
+						},
+						{
+							x: new Date('2016-04-11T17:00:00'),
+							y: 25
+						},
+						{
+							x: new Date('2016-04-11T21:00:00'),
+							y: 24
+						},
+						{
+							x: new Date('2016-04-12T13:00:00'),
+							y: 24
+						}
+					]
+				},{
+					label: 'rain',
+					strokeColor: '#A31599',
+					data: [
+						{
+							x: new Date('2016-04-11T11:45:00'),
+							y: 133
+						},
+						{
+							x: new Date('2016-04-11T12:51:00'),
+							y: 12
+						},
+						{
+							x: new Date('2016-04-11T14:10:00'),
+							y: 22
+						},
+						{
+							x: new Date('2016-04-11T15:15:00'),
+							y: 64
+						},
+						{
+							x: new Date('2016-04-11T17:00:00'),
+							y: 43
+						},
+						{
+							x: new Date('2016-04-11T21:00:00'),
+							y: 76
+						},
+						{
+							x: new Date('2016-04-12T13:00:00'),
+							y: 24
+						}
+					]
+				}];
+
+			var ctx3 = document.getElementById("myChartWithDates").getContext("2d");
+			var myDateLineChart = new Chart(ctx3).Scatter(data3, {
+				bezierCurve: true,
+				showTooltips: true,
+				scaleShowHorizontalLines: true,
+				scaleShowLabels: true,
+				scaleType: "date",
+				scaleLabel: "<%=value%>"
+			});
+	</script>
+	<div class="row">
+		<style type="text/css">
+			td{
+				white-space: nowrap;
+			}
+
+			.table_actions{
+				float: left !important;
+			}
+			.scrollable{
+				height: 300px; 
+    			overflow: scroll;
+			}
+		</style>
+	   <div class="col-xs-12 scrollable" >
+	   {{ table.render }}
+	   </div>
+	</div>
+{% endblock %}
+
+

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Log Overview" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Overview") %}
+{% endblock page_header %}
+
+{% block main %}
+    <style>
+    .chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+    </style>
+    {#{% include "common/_log_summary.html" %}#}
+    {#{% include "common/_log_datatable.html" %}#}
+{#        <link rel="stylesheet" type="text/css" href=sytle.css>#}
+    <script src="https://d3js.org/d3.v3.js"></script>
+    {{ table.render }}
+
+
+    <div class="chart"></div>
+    <script>
+
+        var data = [4, 8, 15, 16, 23, 42];
+
+        var x = d3.scale.linear()
+        .domain([0, d3.max(data)])
+        .range([0, 420]);
+
+        d3.select(".chart")
+         .selectAll("div")
+                .data(data)
+                .enter().append("div")
+                .style("width", function(d) { return x(d) + "px"; })
+                .text(function(d) { return d; });
+    </script>
+
+{% endblock %}
+
+
