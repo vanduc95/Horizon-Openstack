@@ -1,60 +1,64 @@
 {% extends 'base.html' %}
+{#{% extends 'images/base.html' %}{#use when want custom js or css#}
 {% load i18n %}
 {% block title %}{% trans "Images_Docker" %}{% endblock %}
 
 {% block page_header %}
     {% include "horizon/common/_page_header.html" with title=_("Docker") %}
+
 {% endblock page_header %}
 
+
 {% block main %}
-    {% include "horizon/common/_page_header.html" with title=_("Docker") %}
-{#        <div>{{ demo }}</div>#}
 
-    {#    <div class="quota-dynamic">#}
-    {#        <h3>{% trans "Hypervisor Summary" %}</h3>#}
-    {#        <div class="col-sm-2 d3_quota_bar">#}
-    {#            <div class="d3_pie_chart_usage" data-used="{% widthratio stats.vcpus_used stats.vcpus 100 %}"></div>#}
-    {#            <div class="h5">{% trans "VCPU Usage" %}</div>#}
-    {#            <div class="h6">#}
-    {#                {% blocktrans with used=stats.vcpus_used|intcomma available=stats.vcpus|intcomma %}Used#}
-    {#                    <span> {{ used }} </span> of <span> {{ available }} </span>{% endblocktrans %}#}
-    {#            </div>#}
-    {#            <div class="d3_pie_chart_distribution"#}
-    {#                 data-used="Controller=1|Compute=2|Storage=3">#}
-    {#            </div>#}
-    {#        </div>#}
-    {##}
-    {#        <div class="col-sm-5 col-sm-offset-2 d3_quota_bar">#}
-    {#            <div class="h5">{% trans "Local Disk Usage" %}</div>#}
-    {#        </div>#}
-    {#    </div>#}
-
-{#        <div class="overview_chart">#}
-{#            <div class="chart_container">#}
-{#                <div class="chart"#}
-{#                     data-chart-type="line_chart"#}
-{#                     data-url="http://127.0.0.1:5000/images/images_docker/display/"#}
-{#                     data-form-selector='#linechart_general_form'>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="bar_chart_container">#}
-{#                <div class="chart" data-chart-type="overview_bar_chart">#}
-{#                </div>#}
-{#            </div>#}
+    {#    <div>{{ name.0 }}</div>#}
+{#    <div class="form-group">#}
+{#        <label for="date_options" class="col-sm-2 control-label">{% trans "Name Container:" %}</label>#}
+{#        <div class="col-sm-2">#}
+{#            <select data-input-nova-log="select_box_change"#}
+{#                    id="log_type" name="log_type" class="form-control">#}
+{#                {% for name in name_container %}#}
+{#                    <option value="{{ name }}" data-unit="{{ name }}">#}
+{#                        {{ name }}#}
+{#                    </option>#}
+{#                {% endfor %}#}
+{#            </select>#}
 {#        </div>#}
+{#    </div>#}
 
+    <form class="form-horizontal"
+          id="linechart_general_form">
+
+        <div class="form-group">
+            <label for="meter" class="control-label col-sm-2">{% trans "Name container" %}:&nbsp;</label>
+            <div class="col-sm-5">
+                <select data-line-chart-command="select_box_change"
+                        name="meter" id="meter" class="col-sm-w form-control example">
+                    {% for name in name_container %}
+                        <option value="{{ name }}" data-unit="{{ name }}">
+                            {{ name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <br><br><br><br>
 
     <div id="line_chart"
          data-chart-type="line_chart"
-         data-url="http://127.0.0.1:5000/images/images_docker/display/"
-{#         data-url = {{ demo }}#}
-         data-form-selector='#linechart_general_form'>
+         data-url="{% url 'horizon:images:images_docker:data' %}"
+         data-form-selector='#linechart_general_form' class="col-md-10">
     </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                {{ tab_group.render }}
-            </div>
+    </br>
+    </br>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ tab_group.render }}
         </div>
+    </div>
 
 {% endblock %}

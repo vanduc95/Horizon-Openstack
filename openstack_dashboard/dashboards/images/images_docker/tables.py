@@ -49,7 +49,7 @@ class DeleteImageAction(tables.DeleteAction):
 class ImageDockerTable(tables.DataTable):
     repo = tables.Column('repo', verbose_name='Repository')
     tag = tables.Column('tag', verbose_name='Tag')
-    created = tables.Column('created', verbose_name='Created', )
+    created = tables.Column('created', verbose_name='Created')
     size = tables.Column('size', filters=(filters.filesizeformat,),
                          attrs=({"data-type": "size"}), verbose_name='Size')
 
@@ -61,14 +61,14 @@ class ImageDockerTable(tables.DataTable):
 
 
 class ContainerDockerTable(tables.DataTable):
-    # repo = tables.Column('repo', verbose_name='Repository')
-    # tag = tables.Column('tag', verbose_name='Tag')
-    # created = tables.Column('created', verbose_name='Created', )
-    # size = tables.Column('size', filters=(filters.filesizeformat,),
-    #                      attrs=({"data-type": "size"}), verbose_name='Size')
+    id = tables.Column('id', verbose_name='Container Id')
+    image = tables.Column('image', verbose_name='Image')
+    command = tables.Column('command', verbose_name='Command')
+    created = tables.Column('created', verbose_name='Created')
+    status = tables.Column('status', verbose_name='Status')
+    name = tables.Column('name', verbose_name='Name')
 
     class Meta(object):
-        name = "docker"
-        verbose_name = _("Docker")
-        table_actions = (FilterImageAction, DeleteImageAction,)
-        row_actions = (DeleteImageAction,)
+        name = "container_docker"
+        verbose_name = _("Container Docker")
+        table_actions = (FilterImageAction,)

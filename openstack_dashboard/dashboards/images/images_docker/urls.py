@@ -14,8 +14,8 @@ from django.conf.urls import url
 
 from openstack_dashboard.dashboards.images.images_docker import views
 
-
+# app_name = 'images'
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^display/$', views.demo, name='index1'),
+    url(r'^data/$', views.data, name='data'),
 ]
