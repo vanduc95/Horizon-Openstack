@@ -10,13 +10,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.conf.urls import url
+from horizon.test import helpers as test
 
-from openstack_dashboard.dashboards.images.images_docker import views
 
-# app_name = 'images'
-urlpatterns = [
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^data/$', views.data, name='data'),
-    # url(r'^data/(?P<question_id>[0-9]+)/$', views.data, name='data'),
-]
+class ContainerTests(test.TestCase):
+    # Unit tests for container.
+    def test_me(self):
+        self.assertTrue(1 + 1 == 2)

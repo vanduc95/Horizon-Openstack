@@ -122,7 +122,7 @@
 
   1. Selectbox
   The data attribute 'data-line-chart-command="select_box_change' needs to be defined on
-  select element.
+  'select'(html) element.
 
   Example:
   <form class="form-horizontal"
@@ -206,6 +206,7 @@ horizon.d3_line_chart = {
     self.chart_module = chart_module;
     self.html_element = html_element;
     self.jquery_element = jquery_element;
+    console.log(jquery_element.data())
 
     /************************************************************************/
     /*********************** Initialization methods *************************/
@@ -221,6 +222,9 @@ horizon.d3_line_chart = {
 
       self.url = jquery_element.data('url');
       self.url_parameters = jquery_element.data('url_parameters');
+      console.log(jquery_element.data('url_parameters'))
+      console.log(jquery_element.data('url'))
+      console.log(jquery_element.data('form-selector'))
 
       self.final_url = self.url;
       if (jquery_element.data('form-selector')){
@@ -631,6 +635,8 @@ horizon.d3_line_chart = {
     var self = this;
     $(selector).each(function() {
       self.refresh(this, settings);
+      // this la selector (toan bo div)
+      console.log(this)
     });
 
     if (settings !== undefined && settings.auto_resize) {
@@ -695,6 +701,7 @@ horizon.d3_line_chart = {
     var datepicker_selector = 'input[data-line-chart-command="date_picker_change"]';
     var self = this;
 
+
     /**
      * Connecting forms to charts it controls. Each chart contains
      * JQuery selector data-form-selector, which defines by which
@@ -749,7 +756,7 @@ horizon.d3_line_chart = {
      * connected to charts.
      */
     var bind_select_box_change = function(settings) {
-      delegate_event_and_refresh_charts(select_box_selector, 'change', settings);
+      delegate_event_and_refresh_charts(select_box_selector, 'click', settings);
     };
 
     /**

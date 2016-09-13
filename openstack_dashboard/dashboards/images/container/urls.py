@@ -10,28 +10,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.utils.translation import ugettext_lazy as _
+from django.conf.urls import url
 
-import horizon
-
-
-class Group1(horizon.PanelGroup):
-    slug = "group1"
-    name = _("Group1")
-    panels = ('images_OPS', 'images_docker',)
+from openstack_dashboard.dashboards.images.container import views
 
 
-class Group2(horizon.PanelGroup):
-    slug = "group2"
-    name = _("Group2")
-    panels = ('container',)
-
-
-class Images(horizon.Dashboard):
-    name = _("Images")
-    slug = "images"
-    panels = (Group1, Group2,)  # Add your panels here.
-    default_panel = 'images_OPS'  # Specify the slug of the dashboard's default panel.
-
-
-horizon.register(Images)
+urlpatterns = [
+    url(r'^$', views.IndexView.as_view(), name='index'),
+]

@@ -15,7 +15,7 @@ class FilterImageAction(tables.FilterAction):
     name = "myfilter"
 
 
-class DeleteImageAction(tables.DeleteAction):
+class DeleteContainerAction(tables.DeleteAction):
     @staticmethod
     def action_present(count):
         return ungettext_lazy(
@@ -45,7 +45,7 @@ class DeleteImageAction(tables.DeleteAction):
                 img_re = img
                 break
         print(img_re)
-        cli.remove_image(image=img_re, force=True)
+        cli.remove_container(image="high_ritchie", force=True)
 
 
 class ImageDockerTable(tables.DataTable):
@@ -58,8 +58,7 @@ class ImageDockerTable(tables.DataTable):
     class Meta(object):
         name = "image_docker"
         verbose_name = _("Image Docker")
-        table_actions = (FilterImageAction, DeleteImageAction,)
-        row_actions = (DeleteImageAction,)
+        table_actions = (FilterImageAction,)
 
 
 class ContainerDockerTable(tables.DataTable):
@@ -73,4 +72,4 @@ class ContainerDockerTable(tables.DataTable):
     class Meta(object):
         name = "container_docker"
         verbose_name = _("Container Docker")
-        table_actions = (FilterImageAction,)
+        table_actions = (FilterImageAction, DeleteContainerAction)

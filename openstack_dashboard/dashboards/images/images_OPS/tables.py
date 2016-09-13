@@ -102,8 +102,6 @@ class CreateImage(tables.LinkAction):
     policy_rules = (("image", "add_image"),)
 
 
-# class DeleteImage(tables.LinkAction):
-#     pass
 
 class DeleteImage(tables.DeleteAction):
     # NOTE: The bp/add-batchactions-help-text
@@ -139,6 +137,7 @@ class DeleteImage(tables.DeleteAction):
 
     def delete(self, request, obj_id):
         api.glance.image_delete(request, obj_id)
+        print 'test'
 
 
 class UpdateRow(tables.Row):

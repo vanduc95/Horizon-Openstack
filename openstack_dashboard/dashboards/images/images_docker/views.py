@@ -62,10 +62,10 @@ class IndexView(tabs.TabView):
         url = 'http://localhost:8080/api/v1.2/docker'
         headers = {'content-type': 'application/json'}
         r = requests.get(url, headers=headers)
-        dict = r.json()
-        context['name_container'] = []
-        for i in range(len(dict.keys())):
-            context['name_container'].append(dict[dict.keys()[i]]['aliases'][0])
+        info = r.json()
+        context['info_container'] = []
+        for id in info.keys():
+            context['info_container'].append({'name': info[id]['aliases'][0], 'id': id})
         return context
 
 
@@ -85,88 +85,113 @@ def calculate_cpu_percent(stat):
     return cpu_percent
 
 
-def convert():
+cpu_usage_xy = []
+
+
+# def convert(id_container):
+#     url = 'http://localhost:8080/api/v1.2/docker'
+#     headers = {'content-type': 'application/json'}
+#     r = requests.get(url, headers=headers)
+#     dict = r.json()
+#
+#     dict_info = {'/docker/83295baf0211267805476d142a4537140d6950310632bf6270db43d4ec07ac6a': 'demo1',
+#                  '/docker/83dd3fce3af7995366bb84b77f18e858b6cf50c651b20a567eaaf82898c9da17': 'demo2',
+#                  '/docker/dbe6770e3e6cbe1f5fb9c0382f541648f00b29fd6862ba2e0ed2647a784d480e': 'demo3',
+#                  '/docker/46c2b6bd5498d00d7ead42d9202cdd736b8fe0a5d245b0196f5c753cc5e1174f': 'cadvisor'}
+#     data_xy = []
+#     data_y = []
+#
+#     cli = Client(base_url='unix://var/run/docker.sock')
+#     stats_obj = cli.stats(container=dict_info[id_container], decode=True, stream=True)
+#     a = 0
+#     for stat in stats_obj:
+#         if (a < len(dict[id_container]['stats'])):
+#             data_y.append(calculate_cpu_percent(stat))
+#             print 'wait',a
+#             a = a + 1
+#         else:
+#             break
+#
+#     i = 0
+#     for stats in dict[id_container]['stats']:
+#         data_x = stats['timestamp'][:19]
+#         # data_xy.append({'y': stats['cpu']['usage']['per_cpu_usage'][0], 'x': data_x})
+#         data_xy.append({'y': data_y[i], 'x': data_x})
+#         i = i + 1
+#
+#     return data_xy
+
+
+def convert(id_container):
     url = 'http://localhost:8080/api/v1.2/docker'
     headers = {'content-type': 'application/json'}
     r = requests.get(url, headers=headers)
     dict = r.json()
-    cadvisor = []
-    demo1 = []
-    demo2 = []
-    demo3 = []
+
+    dict_info = {'/docker/83295baf0211267805476d142a4537140d6950310632bf6270db43d4ec07ac6a': 'demo1',
+                 '/docker/83dd3fce3af7995366bb84b77f18e858b6cf50c651b20a567eaaf82898c9da17': 'demo2',
+                 '/docker/dbe6770e3e6cbe1f5fb9c0382f541648f00b29fd6862ba2e0ed2647a784d480e': 'demo3',
+                 '/docker/05d2a0ce2e73bc60c465bce8c39f854512533ecb67e43d53f924e210adeda073': 'cadvisor'}
+    data_xy = []
     data_y = []
 
-    # cli = Client(base_url='unix://var/run/docker.sock')
-    # stats_obj = cli.stats(container='cadvisor', decode=True, stream=True)
-    # a = 0
-    # for stat in stats_obj:
-    #     if (a < len(dict['/docker/46c2b6bd5498d00d7ead42d9202cdd736b8fe0a5d245b0196f5c753cc5e1174f']['stats'])):
-    #         data_y.append(calculate_cpu_percent(stat))
-    #         print 'wait'
-    #         a = a + 1
-    #     else:
-    #         break
-    i = 0
-    for stats in dict['/docker/46c2b6bd5498d00d7ead42d9202cdd736b8fe0a5d245b0196f5c753cc5e1174f']['stats']:
-        cadvisor.append({'y': stats['cpu']['usage']['per_cpu_usage'][0], 'x': stats['timestamp'][:19]})
-        # cadvisor.append({'y': data_y[i], 'x': stats['timestamp'][:19]})
-        i = i + 1
+    cli = Client(base_url='unix://var/run/docker.sock')
+    stats_obj = cli.stats(container=dict_info[id_container], decode=True, stream=False)
+    data_xy = data_xy + cpu_usage_xy
+    data_xy.append({'y': calculate_cpu_percent(stats_obj), 'x': stats_obj['read'][:19]})
+    cpu_usage_xy.append({'y': calculate_cpu_percent(stats_obj), 'x': stats_obj['read'][:19]})
+    # print {'y': calculate_cpu_percent(stats_obj), 'x': stats_obj['read'][:19]}
 
-    # for stats in dict['/docker/83295baf0211267805476d142a4537140d6950310632bf6270db43d4ec07ac6a']['stats']:
-    #     demo1.append({'y': stats['cpu']['usage']['per_cpu_usage'][0], 'x': stats['timestamp'][:19]})
-    #
-    # for stats in dict['/docker/83dd3fce3af7995366bb84b77f18e858b6cf50c651b20a567eaaf82898c9da17']['stats']:
-    #     demo2.append({'y': stats['cpu']['usage']['per_cpu_usage'][0], 'x': stats['timestamp'][:19]})
-    #
-    # for stats in dict['/docker/dbe6770e3e6cbe1f5fb9c0382f541648f00b29fd6862ba2e0ed2647a784d480e']['stats']:
-    #     demo3.append({'y': stats['cpu']['usage']['per_cpu_usage'][0], 'x': stats['timestamp'][:19]})
-
-    print cadvisor
-    print demo1
-    print demo2
-    print demo3
-    return [cadvisor, demo1, demo2, demo3]
+    # i = 0
+    # for stats in dict[id_container]['stats']:
+    #     data_x = stats['timestamp'][:19]
+    #     # data_xy.append({'y': stats['cpu']['usage']['per_cpu_usage'][0], 'x': data_x})
+    #     data_xy.append({'y': data_y[i], 'x': data_x})
+    #     i = i + 1
+    print data_xy
+    return data_xy
 
 
 def data(request):
-    data_docker = convert()
-    series = [
+    if request.method == 'GET':
+        print request.GET['meter']
+        data_xy = convert(request.GET['meter'])
+        series = [
+            {'meter': u'disk.write.requests',
+             'data': data_xy,
+             'name': u'container21', 'unit': u'request'},
+            # {'meter': u'disk.write.requests',
+            #  'data': data_docker[1],
+            #  'name': u'demo1', 'unit': u'request'},
+            #
+            # {'meter': u'disk.write.requests',
+            #  'data': data_docker[2],
+            #  'name': u'demo2', 'unit': u'request'},
+            #
+            # {'meter': u'disk.write.requests',
+            #  'data': data_docker[3],
+            #  'name': u'demo3', 'unit': u'request'}
+        ]
+        data_setting = {}
+        linechart = {'series': series, 'settings': data_setting}
 
-        {'meter': u'disk.write.requests',
-         'data': data_docker[0],
-         'name': u'container21', 'unit': u'request'},
 
-        # {'meter': u'disk.write.requests',
-        #  'data': data_docker[1],
-        #  'name': u'demo1', 'unit': u'request'},
-        #
-        # {'meter': u'disk.write.requests',
-        #  'data': data_docker[2],
-        #  'name': u'demo2', 'unit': u'request'},
-        #
-        # {'meter': u'disk.write.requests',
-        #  'data': data_docker[3],
-        #  'name': u'demo3', 'unit': u'request'}
-    ]
-    data_setting = {}
-
-    ret = {'series': series, 'settings': data_setting}
-    # ret = {
-    # "series": [
-    #   {
-    #     "name": "instance-00000005",
-    #     "data": [
-    #       {"y": 171, "x": "2013-08-21T11:22:25"},
-    #       {"y": 160, "x": "2013-08-21T11:22:25"}
-    #     ]
-    #   }, {
-    #     "name": "instance-00000006",
-    #     "data": [
-    #       {"y": 50, "x": "2013-08-21T11:22:25"},
-    #       {"y": 80, "x": "2013-08-21T11:22:25"}
-    #     ]
-    #   }
-    # ],
-    # "settings": {}
-    # }
-    return HttpResponse(json.dumps(ret), content_type='application/json')
+        # ret = {
+        # "series": [
+        #   {
+        #     "name": "instance-00000005",
+        #     "data": [
+        #       {"y": 171, "x": "2013-08-21T11:22:25"},
+        #       {"y": 160, "x": "2013-08-21T11:22:25"}
+        #     ]
+        #   }, {
+        #     "name": "instance-00000006",
+        #     "data": [
+        #       {"y": 50, "x": "2013-08-21T11:22:25"},
+        #       {"y": 80, "x": "2013-08-21T11:22:25"}
+        #     ]
+        #   }
+        # ],
+        # "settings": {}
+        # }
+        return HttpResponse(json.dumps(linechart), content_type='application/json')

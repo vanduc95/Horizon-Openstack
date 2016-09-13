@@ -13,25 +13,11 @@
 from django.utils.translation import ugettext_lazy as _
 
 import horizon
+from openstack_dashboard.dashboards.images import dashboard
+
+class Container(horizon.Panel):
+    name = _("Container")
+    slug = "container"
 
 
-class Group1(horizon.PanelGroup):
-    slug = "group1"
-    name = _("Group1")
-    panels = ('images_OPS', 'images_docker',)
-
-
-class Group2(horizon.PanelGroup):
-    slug = "group2"
-    name = _("Group2")
-    panels = ('container',)
-
-
-class Images(horizon.Dashboard):
-    name = _("Images")
-    slug = "images"
-    panels = (Group1, Group2,)  # Add your panels here.
-    default_panel = 'images_OPS'  # Specify the slug of the dashboard's default panel.
-
-
-horizon.register(Images)
+dashboard.Images.register(Container)
