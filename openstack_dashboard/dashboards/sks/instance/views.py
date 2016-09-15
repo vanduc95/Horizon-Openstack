@@ -10,39 +10,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from horizon import views
 from collections import OrderedDict
 import logging
 
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
-from django import http
-from django import shortcuts
 from django.utils.translation import ugettext_lazy as _
-from django.views import generic
 
 from horizon import exceptions
-from horizon import forms
-from horizon import messages
 from horizon import tables
-from horizon import tabs
-from horizon.utils import memoized
-from horizon import workflows
 
 from openstack_dashboard import api
-from openstack_dashboard.utils import filters
-
-from openstack_dashboard.dashboards.project.instances \
-    import console as project_console
-from openstack_dashboard.dashboards.project.instances \
-    import forms as project_forms
 from openstack_dashboard.dashboards.sks.instance \
     import tables as instance_table
-from openstack_dashboard.dashboards.project.instances \
-    import tabs as project_tabs
-from openstack_dashboard.dashboards.project.instances \
-    import workflows as project_workflows
 
 LOG = logging.getLogger(__name__)
 
@@ -69,6 +47,7 @@ class IndexView(tables.DataTableView):
         marker = self.request.GET.get(
             instance_table.InstanceTable._meta.pagination_param, None)
         search_opts = self.get_filters({'marker': marker, 'paginate': True})
+        print search_opts
         # Gather our instances
         try:
             instances, self._more = api.nova.server_list(

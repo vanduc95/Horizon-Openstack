@@ -1,9 +1,7 @@
-from django.utils.http import urlencode
 from django.utils.translation import pgettext_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 from django.template import defaultfilters as filters
-from horizon.utils.memoized import memoized  # noqa
 
 from horizon import tables
 from django import template

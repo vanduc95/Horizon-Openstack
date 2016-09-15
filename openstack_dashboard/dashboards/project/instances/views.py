@@ -138,6 +138,7 @@ class IndexView(tables.DataTableView):
                 filter_string = self.table.get_filter_string()
                 if filter_field and filter_string:
                     filters[filter_field] = filter_string
+        print 'test'
         return filters
 
 

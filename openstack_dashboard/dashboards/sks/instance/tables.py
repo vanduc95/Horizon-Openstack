@@ -225,6 +225,5 @@ class InstanceTable(tables.DataTable):
     class Meta(object):
         name = "instances"
         verbose_name = _("Instances")
-        #status_columns = ["status"]\
         table_actions = (InstanceFilter,CreateInstance,)
         row_actions = (StartInstance,  LockInstance, StopInstance)

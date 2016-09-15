@@ -41,7 +41,7 @@ class ImageDockerTab(tabs.TableTab):
         for image in cli.images():
             repo = image['RepoTags']
             repoTags = repo[0]
-            create = time.asctime(time.localtime(image['Created']))
+            create = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(image['Created']))
             repo = repoTags.split(':')[0]
             tag = repoTags.split(':')[1]
             img = Images(image['Id'], image['Size'], repo, tag, create)
@@ -60,7 +60,7 @@ class ContainerDockerTab(tabs.TableTab):
         cli = Client(base_url='unix://var/run/docker.sock')
         containers = []
         for ct in cli.containers():
-            created = time.asctime(time.localtime(ct['Created']))
+            created = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(ct['Created']))
             containers.append(Container(ct['Id'][:12], ct['Image'], ct['Command'], created, ct['Status'], ct['Names'][0]))
         return containers
 

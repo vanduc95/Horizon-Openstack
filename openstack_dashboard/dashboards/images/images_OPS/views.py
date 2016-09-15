@@ -53,12 +53,5 @@ class IndexView(tables.DataTableView):
             images = []
             self._prev = self._more = False
             exceptions.handle(self.request, _("Unable to retrieve images."))
-        # obj = []
-        # for a in images:
-        #     if(a.disk_format == 'qcow2'):
-        #         obj.append(a)
-        # return obj
-        cli = Client(base_url='unix://var/run/docker.sock')
-        print cli.images()[0]
 
         return images
