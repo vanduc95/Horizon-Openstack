@@ -18,6 +18,9 @@ from openstack_dashboard.dashboards.images.container \
 from docker import Client
 import time
 from horizon import tables
+from horizon import forms
+from openstack_dashboard.dashboards.images.container import forms as create_forms
+from django.core.urlresolvers import reverse_lazy
 
 
 class Container:
@@ -66,3 +69,32 @@ class IndexView(tables.DataTableView):
                 if filter_field and filter_string:
                     filters[filter_field] = filter_string
         return filters
+
+
+class CreateView(forms.ModalFormView):
+    form_class = create_forms.CreateImageForm
+    form_id = "create_image_form"
+    modal_header = _("Create An Image")
+    submit_label = _("Create Image")
+    submit_url = reverse_lazy('horizon:images:container:create')
+    template_name = 'images/container/create.html'
+    context_object_name = 'image'
+    success_url = reverse_lazy("horizon:images:container:index")
+    page_title = _("Create An Image")
+
+    def get_initial(self):
+        initial = {}
+        for name in [
+            'name',
+            'description',
+            'image_url',
+            'source_type',
+            'architecture',
+            'disk_format',
+            'minimum_disk',
+            'minimum_ram'
+        ]:
+            tmp = self.request.GET.get(name)
+            if tmp:
+                initial[name] = tmp
+        return initial

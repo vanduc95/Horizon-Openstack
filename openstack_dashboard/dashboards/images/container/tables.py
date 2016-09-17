@@ -26,7 +26,7 @@ class ContainerFilterAction(tables.FilterAction):
 class CreateContainer(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Container")
-    url = "images:container:create"
+    url = "horizon:images:container:create"
     print url
     classes = ("ajax-modal",)
     icon = "plus"

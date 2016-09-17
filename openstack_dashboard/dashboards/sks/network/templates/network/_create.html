@@ -17,20 +17,20 @@ Create HMC network
   </p>
 {% endblock %}
 {% block modal-js %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#id_with_subnet").click(function(){
-                $("#id_subnet_name").val("");
-                $("#id_cidr").val("");
-                $("#id_enable_dhcp").prop('checked', false);
-                $("#id_gateway_ip").val("");
-                $("#id_dns_nameservers").val("");
+{#    <script type="text/javascript">#}
+{#        $(document).ready(function(){#}
+{#            $("#id_with_subnet").click(function(){#}
+{#                $("#id_subnet_name").val("");#}
+{#                $("#id_cidr").val("");#}
+{#                $("#id_enable_dhcp").prop('checked', false);#}
+{#                $("#id_gateway_ip").val("");#}
+{#                $("#id_dns_nameservers").val("");#}
 {#                $("#id_subnet_name").reset();#}
 {#                $("#id_cidr").reset();#}
 {#                $("#id_enable_dhcp").reset();#}
 {#                $("#id_gateway_ip").reset();#}
 {#                $("#id_dns_nameservers").reset();#}
-            });
-        });
-    </script>
+{#            });#}
+{#        });#}
+{#    </script>#}
 {% endblock %}

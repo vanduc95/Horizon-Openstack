@@ -10,11 +10,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.conf.urls import url
+from django.utils.translation import ugettext_lazy as _
 
-from openstack_dashboard.dashboards.images.container import views
+import horizon
+from openstack_dashboard.dashboards.chart_dashboard import dashboard
 
-urlpatterns = [
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^create/$', views.CreateView.as_view(), name='create'),
-]
+class Line_Chart(horizon.Panel):
+    name = _("Line_Chart")
+    slug = "line_chart"
+
+
+dashboard.Chart_Dashboard.register(Line_Chart)
